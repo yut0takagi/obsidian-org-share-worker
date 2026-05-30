@@ -1,7 +1,16 @@
 import { Hono } from 'hono'
 import { getMeta, getHtml } from '../r2'
+import { verifyAccessJwt } from '../auth/cfAccessJwt'
+import { isAllowed } from '../auth/audienceCheck'
 
-const route = new Hono<{ Bindings: { R2: R2Bucket; ORG_DOMAIN: string } }>()
+type Bindings = {
+  R2: R2Bucket
+  ORG_DOMAIN: string
+  CF_ACCESS_TEAM_DOMAIN: string
+  CF_ACCESS_AUD: string
+}
+
+const route = new Hono<{ Bindings: Bindings }>()
 
 route.get('/n/:uuid', async (c) => {
   const uuid = c.req.param('uuid')
@@ -12,13 +21,16 @@ route.get('/n/:uuid', async (c) => {
     return c.text('Link Expired', 410)
   }
 
-  // CF Access JWT verification will be added in Task D2.
-  // For now, require the header to exist.
   const jwt = c.req.header('Cf-Access-Jwt-Assertion')
-  if (!jwt) return c.text('Unauthorized', 401)
+  if (!jwt) return c.text('Unauthorized: no Access JWT', 401)
 
-  // TODO Task D2: verify JWT, check email vs mode/audience.
-  // For now, just serve HTML.
+  const claims = await verifyAccessJwt(jwt, c.env.CF_ACCESS_TEAM_DOMAIN, c.env.CF_ACCESS_AUD)
+  if (!claims) return c.text('Unauthorized: invalid JWT', 401)
+
+  if (!isAllowed({ mode: meta.mode, audience: meta.audience }, claims.email, c.env.ORG_DOMAIN)) {
+    return c.text(`Forbidden: ${claims.email} not authorized for this note`, 403)
+  }
+
   const html = await getHtml(c.env.R2, uuid)
   if (!html) return c.text('Not Found', 404)
   return c.html(html)

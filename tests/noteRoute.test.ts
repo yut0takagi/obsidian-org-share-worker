@@ -70,7 +70,7 @@ describe('GET /n/:uuid (private — no auth yet, just structure)', () => {
     await seedR2(r2, 'priv1', 'org')
     const app = new Hono()
     app.route('/', noteRoute)
-    const res = await app.request('/n/priv1', {}, { R2: r2, ORG_DOMAIN: 'cyberagent.co.jp' } as any)
+    const res = await app.request('/n/priv1', {}, { R2: r2, ORG_DOMAIN: 'cyberagent.co.jp', CF_ACCESS_TEAM_DOMAIN: 't.cloudflareaccess.com', CF_ACCESS_AUD: 'aud' } as any)
     expect(res.status).toBe(401)
   })
 
@@ -78,7 +78,7 @@ describe('GET /n/:uuid (private — no auth yet, just structure)', () => {
     const r2 = new MockR2()
     const app = new Hono()
     app.route('/', noteRoute)
-    const res = await app.request('/n/missing', {}, { R2: r2, ORG_DOMAIN: 'cyberagent.co.jp' } as any)
+    const res = await app.request('/n/missing', {}, { R2: r2, ORG_DOMAIN: 'cyberagent.co.jp', CF_ACCESS_TEAM_DOMAIN: 't.cloudflareaccess.com', CF_ACCESS_AUD: 'aud' } as any)
     expect(res.status).toBe(404)
   })
 })
