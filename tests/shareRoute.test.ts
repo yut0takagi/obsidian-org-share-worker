@@ -25,7 +25,7 @@ describe('POST /api/share', () => {
   let env: any
 
   beforeEach(() => {
-    env = { R2: new MockR2(), API_TOKEN: 'tok', ORG_DOMAIN: 'cyberagent.co.jp' }
+    env = { R2: new MockR2(), API_TOKEN: 'tok', ORG_DOMAIN: 'example.com' }
     app = new Hono()
     app.route('/', shareRoute)
   })
@@ -51,7 +51,7 @@ describe('POST /api/share', () => {
   })
 
   it('updates existing share when uuid is provided', async () => {
-    const env2: any = { R2: new MockR2(), API_TOKEN: 'tok', ORG_DOMAIN: 'cyberagent.co.jp' }
+    const env2: any = { R2: new MockR2(), API_TOKEN: 'tok', ORG_DOMAIN: 'example.com' }
     // Pre-populate
     await env2.R2.put('notes/abc123.json', JSON.stringify({ uuid: 'abc123', mode: 'public', audience: [], created_at: '2026-05-30T00:00:00Z', updated_at: '2026-05-30T00:00:00Z', title: 'Old', source_path: 'x.md', owner_email: 'me@x.com', expires_at: null }))
     await env2.R2.put('notes/abc123.html', '<p>old</p>')

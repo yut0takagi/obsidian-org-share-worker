@@ -1,7 +1,23 @@
 {
   "name": "obsidian-org-share-worker",
   "version": "0.1.0",
-  "private": true,
+  "description": "Cloudflare Worker backend for the obsidian-org-share Obsidian plugin. R2 storage + CF Access JWT verification + per-note audience enforcement.",
+  "license": "MIT",
+  "author": "Yuto Takagi",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yut0takagi/obsidian-org-share-worker.git"
+  },
+  "homepage": "https://github.com/yut0takagi/obsidian-org-share-worker#readme",
+  "bugs": "https://github.com/yut0takagi/obsidian-org-share-worker/issues",
+  "keywords": [
+    "cloudflare-worker",
+    "cloudflare-r2",
+    "cloudflare-access",
+    "obsidian",
+    "hono"
+  ],
+  "private": false,
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
@@ -12,7 +28,7 @@
     "@cloudflare/workers-types": "^4.20240329.0",
     "typescript": "^5.3.0",
     "vitest": "^1.2.0",
-    "wrangler": "^3.40.0"
+    "wrangler": "^4.95.0"
   },
   "dependencies": {
     "hono": "^4.1.0",

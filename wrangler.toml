@@ -2,9 +2,11 @@ name = "obsidian-org-share-worker"
 main = "src/index.ts"
 compatibility_date = "2026-05-30"
 
+# Replace bucket_name with your R2 bucket name before deploy.
 [[r2_buckets]]
 binding = "R2"
-bucket_name = "org-share-takagi"
+bucket_name = "your-bucket-name"
 
 [vars]
-ORG_DOMAIN = "cyberagent.co.jp"
+# Update to your org's email domain (used by "Org-wide" share mode).
+ORG_DOMAIN = "example.com"
