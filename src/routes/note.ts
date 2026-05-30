@@ -24,7 +24,9 @@ route.get('/n/:uuid', async (c) => {
   const jwt = c.req.header('Cf-Access-Jwt-Assertion')
   if (!jwt) return c.text('Unauthorized: no Access JWT', 401)
 
-  const claims = await verifyAccessJwt(jwt, c.env.CF_ACCESS_TEAM_DOMAIN, c.env.CF_ACCESS_AUD)
+  const teamDomain = (c.env.CF_ACCESS_TEAM_DOMAIN || '').trim()
+  const aud = (c.env.CF_ACCESS_AUD || '').trim()
+  const claims = await verifyAccessJwt(jwt, teamDomain, aud)
   if (!claims) return c.text('Unauthorized: invalid JWT', 401)
 
   if (!isAllowed({ mode: meta.mode, audience: meta.audience }, claims.email, c.env.ORG_DOMAIN)) {
