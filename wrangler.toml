@@ -2,6 +2,9 @@ name = "obsidian-org-share-worker"
 main = "src/index.ts"
 compatibility_date = "2026-05-30"
 
+[[r2_buckets]]
+binding = "R2"
+bucket_name = "org-share-takagi"
+
 [vars]
 ORG_DOMAIN = "cyberagent.co.jp"
-# CF_ACCESS_TEAM_DOMAIN, CF_ACCESS_AUD will be set in Phase D
