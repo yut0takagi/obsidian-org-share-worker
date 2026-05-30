@@ -14,7 +14,7 @@ npx wrangler login
 export CLOUDFLARE_API_TOKEN='<api-token-with-Workers+R2+Account:Read>'
 
 # 3. Create the R2 bucket (one-time)
-npx wrangler r2 bucket create org-share-takagi
+npx wrangler r2 bucket create org-share
 
 # 4. Set the bearer secret used by the plugin
 TOKEN=$(openssl rand -hex 32)
